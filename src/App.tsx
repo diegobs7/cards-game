@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Card } from "./types";
 import BoardComponent from "./components/Board";
 
@@ -14,13 +14,56 @@ const generateCards = (): Card[] => {
 
 function App() {
   const [cards, setCards] = useState<Card[]>(generateCards());
+  const [selected, setSelected] = useState<number[]>([]);
+  const [attemps, setAttemps] = useState(0);
+
+  useEffect(() => {
+    if (selected.length !== 2) return;
+
+    const [firstId, secondId] = selected;
+    const firstCard = cards.find((card) => card.id === firstId);
+    const secondCard = cards.find((card) => card.id === secondId);
+
+    if (!firstCard || !secondCard) return;
+
+    setAttemps((prev) => prev + 1);
+
+    if (firstCard.number === secondCard.number) {
+      setCards(
+        cards.map((card) =>
+          card.id === firstId || card.id === secondId
+            ? { ...card, isMatched: true }
+            : card,
+        ),
+      );
+
+      setSelected([]);
+    } else {
+      setTimeout(() => {
+        setCards(
+          cards.map((card) =>
+            card.id === firstId || card.id === secondId
+              ? { ...card, isFlipped: false }
+              : card,
+          ),
+        );
+        setSelected([]);
+      }, 1000);
+    }
+  }, [selected]);
 
   const handleFlip = (id: number) => {
+    if (selected.length === 2) return;
+    const card = cards.find((card) => card.id === id);
+    if (!card || card.isFlipped || card.isMatched) return;
+
     setCards(
       cards.map((card) =>
         card.id === id ? { ...card, isFlipped: true } : card,
       ),
     );
+
+    setSelected([...selected, id]);
   };
 
   return (
