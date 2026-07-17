@@ -68,6 +68,7 @@ function App() {
 
   return (
     <div>
+      <p> Intentos: {attemps}</p>
       <BoardComponent cards={cards} onFlip={handleFlip} />
     </div>
   );
