@@ -1,5 +1,6 @@
 import type { Card } from "../types";
 import CardComponent from "./Card";
+import "./Board.css";
 
 interface BoardProps {
   cards: Card[];
@@ -8,7 +9,7 @@ interface BoardProps {
 
 function BoardComponent({ cards, onFlip }: BoardProps) {
   return (
-    <div>
+    <div className="board">
       {cards.map((card) => (
         <CardComponent key={card.id} card={card} onFlip={onFlip} />
       ))}

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Card } from "./types";
 import BoardComponent from "./components/Board";
+import "./App.css";
 
 const generateCards = (): Card[] => {
   const numbers = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5];
@@ -67,7 +68,7 @@ function App() {
   };
 
   return (
-    <div>
+    <div className="app">
       <p> Intentos: {attemps}</p>
       <BoardComponent cards={cards} onFlip={handleFlip} />
     </div>
