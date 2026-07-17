@@ -3,14 +3,25 @@ import type { Card } from "./types";
 import BoardComponent from "./components/Board";
 import "./App.css";
 
+const shuffle = (array: Card[]): Card[] => {
+  const shuffled = [...array];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 const generateCards = (): Card[] => {
   const numbers = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5];
-  return numbers.map((number, index) => ({
-    id: index,
-    number: number,
-    isFlipped: false,
-    isMatched: false,
-  }));
+  return shuffle(
+    numbers.map((number, index) => ({
+      id: index,
+      number: number,
+      isFlipped: false,
+      isMatched: false,
+    })),
+  );
 };
 
 function App() {
